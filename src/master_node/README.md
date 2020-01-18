@@ -74,7 +74,8 @@ Start the playback of any rosbag (for testing) with:
 You should see the experience map, posecell network and view cells window.
 
 5.2 Testing with gazebo
-TODO
+To run vitaslam in combination with gazebo instead of the use:
+`roslaunch master_node master.launch`
 
 ## Description
 The current Node Graph looks like follows:
