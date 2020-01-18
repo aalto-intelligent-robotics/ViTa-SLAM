@@ -45,6 +45,7 @@ Sanity check: Make sure the following packages are in catkin\_ws/src/:
 - master_node
 - whiskeye_gazebo
 - vita-slam
+- whiskeye_controller
 
 3. Run catkin\_make in whiskeye\_ws/
 
