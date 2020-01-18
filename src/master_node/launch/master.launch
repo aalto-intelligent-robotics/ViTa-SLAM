@@ -1,0 +1,34 @@
+<launch>
+<!-- ======================= Launch Gazebo ======================================================== -->
+<!-- CBS 2019 experiment world, square with aliased env. -->
+<include file ="$(find whiskeye_gazebo)/launch/CBS19_experiment_square.launch" />
+
+<!-- Launch Gazebo scene (square world) with Whiskeye robot and either a rock or the cube for icra 2020 dataset generation-->
+<!--include file ="$(find whiskeye_gazebo)/launch/ICRA20_dataset_generation_rock.launch" /-->
+<!--include file ="$(find whiskeye_gazebo)/launch/ICRA20_dataset_generation_square.launch" /-->
+<!--include file ="$(find whiskeye_gazebo)/launch/ICRA20_dataset_generation_square_shadows.launch"/-->
+<!--include file ="$(find whiskeye_gazebo)/launch/ICRA20_dataset_generation_square_shadows_spotlight.launch" /-->
+<!--include file ="$(find whiskeye_gazebo)/launch/ICRA20_dataset_generation_modified.launch" /-->
+
+<!-- ======================= Robot Control ======================================================== -->
+
+<!-- Node to manually control the WhiskEye robot -->
+<!--include file="$(find whiskeye_controller)/launch/teleop.launch" /-->
+
+<!-- Node to manually control the WhiskEyes neck -->
+<!-- include file ="$(find whiskeye_controller)/launch/neck_teleop.launch" /> -->
+
+<!-- Node to manually control the whiskers -->
+<!--include file="$(find whiskeye_controller)/launch/whisker_teleop.launch" /-->
+
+<!-- RCP behavior for the whiskers -->
+<include file="$(find whiskeye_controller)/launch/whisker_rcp.launch" />
+
+<!-- Trajectory used in the CBS paper -->
+<include file="$(find whiskeye_controller)/launch/CBS19_orbit.launch" />
+
+<!-- ==================== ViTA-SLAM =============================================================== -->
+<!-- launch vitaslam -->
+<include file="$(find vitaslam)/launch/whiskeye_slam.launch"/>
+
+</launch>

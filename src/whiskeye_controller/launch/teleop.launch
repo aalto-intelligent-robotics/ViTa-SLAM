@@ -1,0 +1,9 @@
+<launch>
+<node pkg="whiskeye_controller" type="teleop.py" name="teleop" output = "screen">
+
+<param name="speed" value="1" type="double" />
+<param name="turn" value="0.25" type="double" />
+
+</node>
+
+</launch>

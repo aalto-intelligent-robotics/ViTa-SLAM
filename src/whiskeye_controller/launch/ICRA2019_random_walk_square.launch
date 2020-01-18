@@ -1,0 +1,9 @@
+<launch>
+<node pkg="whiskeye_controller" type="random_walk_square.py" name="random_walk_square" output="screen">
+    <param name="robot_radius" value="0.35" type = "double"/>
+    <param name="arena_len" value="10" type = "double"/>
+    <param name="linear_speed" value="2.25" type = "double"/>
+    <param name="rot_speed" value="6.0" type = "double"/>
+    <param name="pub_rate" value="100.0" type = "double"/>
+</node>
+</launch>

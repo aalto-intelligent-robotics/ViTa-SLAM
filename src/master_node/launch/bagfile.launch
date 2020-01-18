@@ -1,0 +1,13 @@
+<launch>
+<!-- Arguments -->
+<arg name="bagfile_path" default=""/>
+
+<!-- ================== Launch Gazebo ============================================ -->
+<!-- Launch a bagfile instead -->
+<node pkg="rosbag" type="play" name="player" output="screen" args="--clock --quiet --rate=2.5 $(arg bagfile_path)" required="true"/>
+
+<!-- ================== ViTa-SLAM =============================== -->
+<!-- launch vitaslam -->
+<include file="$(find vitaslam)/launch/whiskeye_slam.launch"/>
+
+</launch>

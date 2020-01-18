@@ -1,0 +1,5 @@
+<launch>
+<node pkg="whiskeye_controller" type="orbit_trajectory.py" name="orbit_trajectory" output="screen">
+    <param name="pub_rate" value="100.0" type = "double"/>
+</node>
+</launch>
