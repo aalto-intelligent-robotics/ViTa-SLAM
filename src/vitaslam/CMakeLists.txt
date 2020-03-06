@@ -130,7 +130,7 @@ add_dependencies(vitaslam_em vitaslam_ros_generated_messages_cpp)
 add_dependencies(vitaslam_pc vitaslam_ros_generated_messages_cpp)
 add_dependencies(vitaslam_vita vitaslam_ros_generated_messages_cpp)
 
-install(TARGETS vitaslam vitaslam_em vitaslam_pc
+install(TARGETS vitaslam_vita vitaslam_em vitaslam_pc
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
  
