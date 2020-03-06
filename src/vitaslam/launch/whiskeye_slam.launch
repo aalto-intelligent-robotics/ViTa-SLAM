@@ -1,6 +1,6 @@
 
 <launch>
-	<node name="RatSLAMLocalViewCells" pkg="vitaslam" type="vitaslam_lv" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
+	<node name="RatSLAMLocalViewCells" pkg="vitaslam" type="vitaslam_vita" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
     </node>
 
 	<node name="RatSLAMPoseCells" pkg="vitaslam" type="vitaslam_pc" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
