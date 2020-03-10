@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+<sdf version='1.5'>
+	<world name='default'>
+
+		<light name='sun' type='directional'>
+			<cast_shadows>1</cast_shadows>
+			<pose>0 0 10 0 -0 0</pose>
+			<diffuse>0.8 0.8 0.8 1</diffuse>
+			<specular>0.2 0.2 0.2 1</specular>
+			<attenuation>
+				<range>1000</range>
+				<constant>0.9</constant>
+				<linear>0.01</linear>
+				<quadratic>0.001</quadratic>
+			</attenuation>
+			<direction>-0.5 0.1 -0.9</direction>
+		</light>
+
+		<physics name='default_physics' default='0' type='ode'>
+			<max_step_size>0.001</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>1000</real_time_update_rate>
+			<gravity>0 0 -9.8</gravity>
+			<magnetic_field>5.5645e-06 2.28758e-05 -4.23884e-05</magnetic_field>
+		</physics>
+
+		<scene>
+			<ambient>0.4 0.4 0.4 1</ambient>
+			<background>0.7 0.7 0.7 1</background>
+			<shadows>1</shadows>
+			<origin_visual>0</origin_visual>
+			<grid>0</grid>
+		</scene>
+
+		<spherical_coordinates>
+			<surface_model>EARTH_WGS84</surface_model>
+			<latitude_deg>0</latitude_deg>
+			<longitude_deg>0</longitude_deg>
+			<elevation>0</elevation>
+			<heading_deg>0</heading_deg>
+		</spherical_coordinates>
+
+		<include>
+			<name>whiskeye_robot_instance</name>
+			<uri>model://whiskeye_robot</uri>
+			<pose>0 0 0 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>model://ground_plane</uri>
+		</include>
+
+		<model name='nrp_panel'>
+			<static>true</static>
+			<pose>-2 0 -1.5 0 0 1.57</pose>
+			<include>
+				<uri>model://nrp_panel</uri>
+			</include>
+		</model>
+
+		<model name='whiskeye_arena'>
+			<pose>0 0 0 0 0 0</pose>
+			<static>true</static>
+			<include>
+				<uri>model://whiskeye_arena</uri>
+			</include>
+		</model>
+
+		<model name='ball_red'>
+			<pose>-0.6 0 1.0 0 0 0</pose>
+			<include>
+				<uri>model://whiskeye_toy_ball_red_heavy</uri>
+			</include>
+		</model>
+
+		<model name='ball_green'>
+			<pose>0.0 0 1.0 0 0 0</pose>
+			<include>
+				<uri>model://whiskeye_toy_ball_green_heavy</uri>
+			</include>
+		</model>
+
+		<model name='ball_blue'>
+			<pose>0.6 0 1.0 0 0 0</pose>
+			<include>
+				<uri>model://whiskeye_toy_ball_blue_heavy</uri>
+			</include>
+		</model>
+
+		<gui fullscreen='0'>
+			<camera name='user_camera'>
+				<pose frame=''>1.09453 -4.762 3.13877 0 0.396 1.772</pose>
+<!--
+				<pose frame=''>0.224764 -1.35183 4.97378 0 1.31964 1.48021</pose>
+				<pose frame=''>0.692152 -2.65323 1.95794 0 0.631639 1.78421</pose>
+				<pose frame=''>0.934397 -1.06219 1.69311 -0 0.851639 2.07621</pose>
+-->
+				<view_controller>orbit</view_controller>
+				<projection_type>perspective</projection_type>
+			</camera>
+		</gui>
+
+		</world>
+</sdf>
+

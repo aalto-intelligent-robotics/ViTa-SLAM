@@ -1,0 +1,17 @@
+		<joint type="revolute" name="$(NAME)">
+			<pose>$(POSE)</pose>
+			<parent>$(PARENT)</parent>
+			<child>$(CHILD)</child>
+			<axis>
+				<xyz>$(AXIS)</xyz>
+				<limit>
+					<lower>$(LIMIT_LO)</lower>
+					<upper>$(LIMIT_HI)</upper>
+				</limit>
+				<dynamics>
+					<friction>$(FRICTION)</friction>
+					<damping>$(DAMPING)</damping>
+				</dynamics>
+			</axis>
+		</joint>
+

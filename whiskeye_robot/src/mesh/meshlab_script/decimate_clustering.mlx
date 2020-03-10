@@ -1,0 +1,17 @@
+<!DOCTYPE FilterScript>
+
+<!--
+
+	NB: We don't use this - we use decimate quadric ("decimate.mlx") instead,
+	because it's much better.
+
+-->
+
+<FilterScript>
+ <filter name="Remove Duplicated Vertex"/>
+ <filter name="Clustering decimation">
+  <Param type="RichAbsPerc" value="0.0034033" min="0" name="Threshold" max="0.340333"/>
+  <Param type="RichBool" value="false" name="Selected"/>
+ </filter>
+</FilterScript>
+

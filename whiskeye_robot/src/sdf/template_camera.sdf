@@ -1,0 +1,29 @@
+			<sensor name="$(NAME)" type="camera">
+				<pose>$(POSE)</pose>
+				<camera>
+					<horizontal_fov>1.57</horizontal_fov>
+					<image>
+						<width>640</width>
+						<height>480</height>
+                        <format>R8G8B8</format>
+					</image>
+					<clip>
+						<near>0.001</near>
+						<far>100</far>
+					</clip>
+<!--
+					<distortion>
+						<k1>0.0</k1>
+						<k2>0.0</k2>
+						<k3>0.0</k3>
+						<p1>0.0</p1>
+						<p2>0.0</p2>
+						<center>0.5 0.5</center>
+					</distortion>
+-->
+				</camera>
+				<always_on>1</always_on>
+				<update_rate>5</update_rate>
+				<visualize>$(VISUALIZE)</visualize>
+			</sensor>
+

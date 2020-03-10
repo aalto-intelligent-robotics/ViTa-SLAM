@@ -1,0 +1,6 @@
+
+https://sourceforge.net/p/meshlab/discussion/499533/thread/9c53062b/
+
+Merge Close Vertices @ 0.1mm
+Remove Duplicate Faces
+

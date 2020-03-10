@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+	<model name="whiskeye_robot">
+
+$(CONTENT)
+
+		<!--
+			some helper links are used to provide a "plotter-like" 2+1+1D
+			pose control linkage. joint "pose_x" controls x, "pose_y" is
+			for y, "pose_z" is an uncontrolled joint allowing the robot to
+			fall to the floor at the controlled (x, y) location, and "pose_z"
+			controls the orientation of the robot.
+		-->
+
+		<joint type="prismatic" name="pose_x">
+			<pose>0 0 0 0 0 0</pose>
+			<parent>world</parent>
+			<child>link_pose_x</child>
+			<axis>
+				<xyz>1 0 0</xyz>
+				<dynamics>
+					<friction>0.1</friction>
+					<damping>0.1</damping>
+				</dynamics>
+			</axis>
+		</joint>
+
+		<link name="link_pose_x">
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<mass>0.1000 </mass>
+				<inertia>
+					<ixx>0.1</ixx>
+					<ixy>0</ixy>
+					<ixz>0</ixz>
+					<iyy>0.1</iyy>
+					<iyz>0</iyz>
+					<izz>0.1</izz>
+				</inertia>
+			</inertial>
+		</link>
+
+		<joint type="prismatic" name="pose_y">
+			<pose>0 0 0 0 0 0</pose>
+			<parent>link_pose_x</parent>
+			<child>link_pose_y</child>
+			<axis>
+				<xyz>0 1 0</xyz>
+				<dynamics>
+					<friction>0.1</friction>
+					<damping>0.1</damping>
+				</dynamics>
+			</axis>
+		</joint>
+
+		<link name="link_pose_y">
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<mass>0.1000 </mass>
+				<inertia>
+					<ixx>0.1</ixx>
+					<ixy>0</ixy>
+					<ixz>0</ixz>
+					<iyy>0.1</iyy>
+					<iyz>0</iyz>
+					<izz>0.1</izz>
+				</inertia>
+			</inertial>
+		</link>
+
+		<joint type="prismatic" name="pose_z">
+			<pose>0 0 0 0 0 0</pose>
+			<parent>link_pose_y</parent>
+			<child>link_pose_z</child>
+			<axis>
+				<xyz>0 0 1</xyz>
+				<dynamics>
+					<friction>0.1</friction>
+					<damping>0.1</damping>
+				</dynamics>
+			</axis>
+		</joint>
+
+		<link name="link_pose_z">
+			<inertial>
+				<pose>0 0 0 0 0 0</pose>
+				<mass>0.1000</mass>
+				<inertia>
+					<ixx>0.1</ixx>
+					<ixy>0</ixy>
+					<ixz>0</ixz>
+					<iyy>0.1</iyy>
+					<iyz>0</iyz>
+					<izz>0.1</izz>
+				</inertia>
+			</inertial>
+		</link>
+
+		<joint type="revolute" name="pose_theta">
+			<pose>0 0 0 0 0 0</pose>
+			<parent>link_pose_z</parent>
+			<child>body</child>
+			<axis>
+				<xyz>0 0 1</xyz>
+				<dynamics>
+					<friction>0.1</friction>
+					<damping>0.1</damping>
+				</dynamics>
+			</axis>
+		</joint>
+
+		<plugin filename="libwhiskeye_gazebo.so" name="robot_controller"/>
+
+	</model>
+</sdf>
+

@@ -1,0 +1,9 @@
+<filter name="Transform: Move, Translate, Center">
+<Param type="RichDynamicFloat" value="$ARG1" min="-1.0" name="axisX" max="1.0"/>
+<Param type="RichDynamicFloat" value="$ARG2" min="-1.0" name="axisY" max="1.0"/>
+<Param type="RichDynamicFloat" value="$ARG3" min="-1.0" name="axisZ" max="1.0"/>
+<Param type="RichBool" value="false" name="centerFlag"/>
+<Param type="RichBool" value="true" name="Freeze"/>
+<Param type="RichBool" value="true" name="ToAll"/>
+</filter>
+

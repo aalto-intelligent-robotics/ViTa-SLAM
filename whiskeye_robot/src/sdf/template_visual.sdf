@@ -1,0 +1,15 @@
+			<visual name="$(NAME)_visual">
+				<pose>0 0 0 0 0 0</pose>
+				<geometry>
+					<mesh>
+						<uri>$(URI_MESH_VISUAL)</uri>
+					</mesh>
+				</geometry>
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/$(COLOR)</name>
+					</script>
+				</material>
+			</visual>
+

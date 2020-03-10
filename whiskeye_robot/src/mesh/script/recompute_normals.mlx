@@ -1,0 +1,6 @@
+<filter name="Recompute Vertex Normals">
+<Param enum_val0="None (avg)" enum_val1="By Angle" enum_cardinality="4" enum_val2="By Area" enum_val3="As defined by N. Max" type="RichEnum" value="2" name="weightMode"/>
+</filter>
+<filter name="Normalize Vertex Normals"/>
+<filter name="Normalize Face Normals"/>
+

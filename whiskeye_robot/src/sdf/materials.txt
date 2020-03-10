@@ -1,0 +1,43 @@
+whiskeye_body-3_body-1 = White
+whiskeye_body-3_ec-22_large-1 = FlatBlack
+whiskeye_body-3_host_pc-1 = DarkGrey
+whiskeye_body-3_myomotordriverpcb-1 = Grass
+whiskeye_body-3_rl-d-30-101-50-01033_complete-1 = FlatBlack
+whiskeye_body-3_wheel-1 = FlatBlack
+whiskeye_body-3_wheel-2 = FlatBlack
+whiskeye_body-3_wheel-3 = FlatBlack
+
+whiskeye_gimbal-1_ec-22_medium-2 = FlatBlack
+whiskeye_gimbal-1_gimbal_frame-1 = Grey
+whiskeye_gimbal-1_myomotordriverpcb-2 = Grass
+whiskeye_gimbal-1_rl-d-20-101-38-01033_complete-1 = FlatBlack
+
+whiskeye_neck-2_ec-22_large-1 = FlatBlack
+whiskeye_neck-2_myomotordriverpcb-1 = Grass
+whiskeye_neck-2_neck-1 = Grey
+whiskeye_neck-2_rl-d-20-101-38-01033_complete-1 = FlatBlack
+
+whiskeye_head-1_elp_camera-1 = Gold
+whiskeye_head-1_elp_camera-2 = Gold
+whiskeye_head-1_eyemount_camholder_reduced-1 = White
+whiskeye_head-1_eyemount_camholder_reduced-2 = White
+whiskeye_head-1_eyemount_elevation-1 = White
+whiskeye_head-1_eyemount_elevation-2 = White
+whiskeye_head-1_eyemount_yaw-3 = White
+whiskeye_head-1_eyemount_yaw-4 = White
+whiskeye_head-1_head_barebones-1 = White
+whiskeye_head-1_pcb_head-1 = Grass
+whiskeye_head-1_pearnana_tangoblack-1 = FlatBlack
+whiskeye_head-1_pi_compute-1 = Grass
+whiskeye_head-1_row_mini-1_row_reduced-1 = Grass
+whiskeye_head-1_row_mini-2_row_reduced-1 = Grass
+whiskeye_head-1_row_mini-3_row_reduced-1 = Grass
+whiskeye_head-1_row_mini-4_row_reduced-1 = Grass
+whiskeye_head-1_row_mini-5_row_reduced-1 = Grass
+whiskeye_head-1_row_mini-6_row_reduced-1 = Grass
+
+whiskeye_head-1_row_mini-._whiskerasm_50mm-1 = Orange
+whiskeye_head-1_row_mini-._whiskerasm_70mm-1 = Orange
+whiskeye_head-1_row_mini-._whiskerasm_100mm-1 = Orange
+whiskeye_head-1_row_mini-._whiskerasm_160mm-1 = Orange
+

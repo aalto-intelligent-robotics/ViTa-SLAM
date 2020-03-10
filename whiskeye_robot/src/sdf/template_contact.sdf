@@ -1,0 +1,9 @@
+			<sensor name="$(NAME)_contact" type="contact">
+				<contact>
+					<collision>$(TARGET)</collision>
+				</contact>
+				<always_on>1</always_on>
+				<update_rate>50</update_rate>
+				<visualize>$(VISUALIZE)</visualize>
+			</sensor>
+

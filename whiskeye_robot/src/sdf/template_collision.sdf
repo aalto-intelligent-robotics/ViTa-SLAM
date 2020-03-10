@@ -1,0 +1,20 @@
+			<collision name="$(NAME)_collision">
+				<pose>0 0 0 0 0 0</pose>
+				<geometry>
+					<mesh>
+						<uri>$(URI_MESH_COLLISION)</uri>
+					</mesh>
+				</geometry>
+				<surface>
+					<friction>
+						<ode>
+							<mu>$(MU)</mu>
+							<mu2>$(MU2)</mu2>
+						</ode>
+					</friction>
+					<contact>
+						<collide_without_contact>$(COLLIDE_WITHOUT_CONTACT)</collide_without_contact>
+					</contact>
+				</surface>
+			</collision>
+

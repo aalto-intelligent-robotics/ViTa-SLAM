@@ -1,7 +1,0 @@
-<launch>
-<node pkg="whiskeye_controller" type="neck_teleop.py" name="teleop_whiskeye_neck" output = "screen">
-
-<param name="speed" value="0.05" type="double" />
-</node>
-
-</launch>

@@ -1,0 +1,19 @@
+		<link name="$(NAME)">
+			<inertial>
+				<pose>$(CENTRE) 0 0 0</pose>
+				<mass>$(MASS)</mass>
+				<inertia>
+					<ixx>$(IXX)</ixx>
+					<ixy>0</ixy>
+					<ixz>0</ixz>
+					<iyy>$(IYY)</iyy>
+					<iyz>0</iyz>
+					<izz>$(IZZ)</izz>
+				</inertia>
+			</inertial>
+$(VISUALS)
+$(COLLISIONS)
+$(SENSORS)
+$(DATUMS)
+		</link>
+
