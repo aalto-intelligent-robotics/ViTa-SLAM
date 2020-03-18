@@ -11,7 +11,7 @@ ViTa-SLAM not only allows the robot to perform natural interactions with the env
 The ViTa-SLAM software framework in this repository can be used as a method of performing SLAM with odometry, visual and tactile data as input. The output is a semi-metric topologial map and a pose estimate of the robot.
 
 Figure 1 depicts the Node Graph when running ViTa-SLAM with gazebo:
-![](rosgraph_gazebo.png)
+![](vitaslam/rosgraph_gazebo.png)
 
 Inputs:
 - /whiskeye/odom: Odometry of the robot
@@ -26,14 +26,13 @@ Outputs:
 - /whiskeye/log/em: The experience map in a different format
 
 ## Packages in this repository
-Check out this repository in a catkin workspace. In the src directory 4 packages are included.
-- master\_node: Contains the launch scripts and installation instructions
+ There are 4 packages overall in the master and experiments branches.
 - vitaslam: Contains the vitaslam codebase
+The following packages in the experiments branch are not needed to run ViTa-SLAM but to recreate the experiments for our paper[1].
+- master\_node: Contains the launch scripts and installation instructions
 - whiskeye\_controller: Contains various controllers to move the robot in gazebo
 - whiskeye\_gazebo: Contains the gazebo files and worlds to test ViTa-SLAM
-
-## Installation
-More installation instructions can be found in src/master\_node/README.md
+Move the contents of this repository in a catkin workspace and compile with `catkin_make`. For more details follow the installation instructions in the technical report.
 
 ## Sources
 [1]

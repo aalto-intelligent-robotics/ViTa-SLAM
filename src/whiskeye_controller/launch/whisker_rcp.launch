@@ -1,8 +1,0 @@
-<launch>
-<node pkg="whiskeye_controller" type="whisker_rcp.py" name="rcp_whiskeye_whisker" output = "screen">
-    <param name="delta_theta" value="0.1" type="double"/>
-    <param name="rate" value="25" type="int"/>
-    <param name="touch_factor" value="4" type="double"/>
-</node>
-
-</launch>
