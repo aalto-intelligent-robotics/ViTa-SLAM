@@ -23,6 +23,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 #ifndef VIEW_TEMPLATE_SCENE_HPP_
 #define VIEW_TEMPLATE_SCENE_HPP_
 

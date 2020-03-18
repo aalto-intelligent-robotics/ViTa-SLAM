@@ -77,7 +77,11 @@ You should see the experience map, posecell network and view cells window.
 5.2 Testing with gazebo
 To run vitaslam in combination with gazebo instead of the use:
 `roslaunch master_node master.launch`
+You should see the same windows plus gazebo opening.
 
 ## Description
-The current Node Graph looks like follows:
-![](rosgraph.png)
+The Node Graph when running ViTa-SLAM with a bagfile looks like follows:
+![](../vitaslam/rosgraph.png)
+The Node Graph when running ViTa-SLAM with gazebo looks like follows:
+![](../vitaslam/rosgraph_gazebo.png)
+ 

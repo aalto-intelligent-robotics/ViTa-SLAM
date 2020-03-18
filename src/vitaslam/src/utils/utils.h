@@ -24,8 +24,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _RATSLAM_UTILS_H
-#define _RATSLAM_UTILS_H
+#ifndef _VITASLAM_UTILS_H
+#define _VITASLAM_UTILS_H
 
 #include <boost/property_tree/ptree.hpp>
 using boost::property_tree::ptree;
@@ -152,6 +152,6 @@ inline void printout_vector_double(std::vector<double> toprint)
     std::cout << std::endl;
 }
 
-}; // namspace ratslam
+};
 
-#endif // _RATSLAM_UTILS_H
+#endif // _VITASLAM_UTILS_H
