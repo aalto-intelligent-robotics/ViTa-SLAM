@@ -89,14 +89,14 @@ You should see the same windows plus gazebo opening.
 
 ## NRP
 In order for the ViTa-SLAM algorithm to work with the NRP, the vitaslam package should be moved to the gazebo workspace at `$NRP/GazeboRosPackages/src`.
-Then the workspace needs to be compiled with `catkin_make`.
+Then the workspace needs to be compiled with `catkin\_make`.
 Since the NRP uses personalized Gazebo packages, in $NRP/GazeboRosPackages/src/gazebo\_ros\_pkgs/gazebo\_ros/launch, the argument `<arg name="recording" default="false"/>` should be added inside empty\_world.launch.
 ViTa-SLAM can be launched with a NRP experiment by adding the "rosLaunch" parameter in the experiment configuration file with the location of the launch file of ViTa-SLAM.
 ViTa-SLAM then acts as just another ROS node and can be used according to the specifications in this document.
 Since the topic of the odometry sensor of the WhiskEye robot is not published, in the Transfer Function of the NRP experiment the odometry data must be published in the repsective topic manually.
 
 ## Parameter tuning
-The parameters for ViTa-SLAM can be changed in src/vitaslam/config/config\_whiskeye.txt.in.
+The parameters for ViTa-SLAM can be changed in vitaslam/config/config\_whiskeye.txt.in.
 There are many parameters that influence the performance of ViTa-SLAM.
 The meaning and influence of the most important parameters is explained in the tuning\_parameters\guide.txt.
 

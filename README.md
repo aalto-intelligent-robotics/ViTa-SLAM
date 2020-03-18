@@ -10,13 +10,10 @@ ViTa-SLAM not only allows the robot to perform natural interactions with the env
 ## About this repository
 The ViTa-SLAM software framework in this repository can be used as a method of performing SLAM with odometry, visual and tactile data as input. The output is a semi-metric topologial map and a pose estimate of the robot.
 
-Figure 1 depicts the Node Graph when running ViTa-SLAM with gazebo:
-![](vitaslam/rosgraph_gazebo.png)
-
 Inputs:
 - /whiskeye/odom: Odometry of the robot
-- /whiskeye/head/rcp_state: RCP state of the whisker array (protracting or retracting whiskers)
-- /whiskeye/head/contact_world: Whisker contact points in world frame.
+- /whiskeye/head/rcp\_state: RCP state of the whisker array (protracting or retracting whiskers)
+- /whiskeye/head/contact\_world: Whisker contact points in world frame.
 - /whiskeye/head/xy: xy deflection angles of the whiskers (2 values (1 for x defl., 1 for y defl.) for each whisker)
 - /whiskeye/platform/cam0: Camera input
 
@@ -44,6 +41,7 @@ Move the contents of this repository in a catkin workspace and compile with `cat
   year={2019}
 }
 ```
+```
 [2]
 @article{ball2013openratslam,
   title={OpenRatSLAM: an open source brain-based SLAM system},
@@ -55,6 +53,8 @@ Move the contents of this repository in a catkin workspace and compile with `cat
   year={2013},
   publisher={Springer}
 }
+```
+```
 [3]
 @inproceedings{salman2018whisker,
   title={Whisker-ratslam applied to 6d object identification and spatial localisation},
@@ -64,4 +64,4 @@ Move the contents of this repository in a catkin workspace and compile with `cat
   year={2018},
   organization={Springer}
 }
-
+```
