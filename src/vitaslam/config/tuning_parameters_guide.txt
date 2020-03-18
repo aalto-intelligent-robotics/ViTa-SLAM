@@ -1,3 +1,6 @@
+NOTE:
+Not all parameters of ViTa-SLAM are explained here, only the ones that were tuned for the CBS 2019 experiment.
+
 [general]
 topic_root: defines the topic root under which all the topics of the robot are published
 

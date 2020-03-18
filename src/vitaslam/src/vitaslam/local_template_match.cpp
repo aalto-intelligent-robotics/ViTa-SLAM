@@ -1,3 +1,33 @@
+/* ViTa-SLAM
+ *
+ * Copyright (C) 2020
+ *
+ * ViTaSLAM algorithm by
+ * Oliver Struckmeier (oliver.struckmeier@aalto.fi), Kshitij Tiwari (kshitij.tiwari@aalto.fi)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ * ViTa-SLAM is based on the RatSLAM algorithm by:
+ * Michael Milford (1) and Gordon Wyeth (1) ([michael.milford, gordon.wyeth]@qut.edu.au),
+ * and in specific the openRatSLAM imeplementation by:
+ * David Ball (david.ball@qut.edu.au) (1), Scott Heath (scott.heath@uqconnect.edu.au) (2)
+ *
+ * 1. Queensland University of Technology, Australia
+ * 2. The University of Queensland, Australia
+ */
+
 #include "local_template_match.h"
 #include "../utils/utils.h"
 #include <ros/ros.h>
@@ -158,7 +188,7 @@ int LocalTemplateMatch::create_template()
 void LocalTemplateMatch::compare(double &err, int &template_match_id)
 {
     // First compare the visual templates
-    // This is pretty much like in vanilla ratslam
+    // Comparison of visual data is like in vanilla ratslam
     if (templates.size() == 0)
     {
         err = DBL_MAX;

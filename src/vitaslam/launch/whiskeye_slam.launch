@@ -1,11 +1,11 @@
 
 <launch>
-	<node name="RatSLAMLocalViewCells" pkg="vitaslam" type="vitaslam_vita" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
+	<node name="ViTaSLAMSensorCells" pkg="vitaslam" type="vitaslam_vita" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
     </node>
 
-	<node name="RatSLAMPoseCells" pkg="vitaslam" type="vitaslam_pc" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
+	<node name="ViTaSLAMPoseCells" pkg="vitaslam" type="vitaslam_pc" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
     </node>
 
-	<node name="RatSLAMExperienceMap" pkg="vitaslam" type="vitaslam_em" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
+	<node name="ViTaSLAMExperienceMap" pkg="vitaslam" type="vitaslam_em" args="$(find vitaslam)/config/config_whiskeye.txt.in" cwd="node" required="true" output="screen">
     </node>
 </launch>

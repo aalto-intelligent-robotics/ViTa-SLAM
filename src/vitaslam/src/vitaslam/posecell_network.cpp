@@ -1,3 +1,33 @@
+/* ViTa-SLAM
+ *
+ * Copyright (C) 2020
+ *
+ * ViTaSLAM algorithm by
+ * Oliver Struckmeier (oliver.struckmeier@aalto.fi), Kshitij Tiwari (kshitij.tiwari@aalto.fi)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *
+ * ViTa-SLAM is based on the RatSLAM algorithm by:
+ * Michael Milford (1) and Gordon Wyeth (1) ([michael.milford, gordon.wyeth]@qut.edu.au),
+ * and in specific the openRatSLAM imeplementation by:
+ * David Ball (david.ball@qut.edu.au) (1), Scott Heath (scott.heath@uqconnect.edu.au) (2)
+ *
+ * 1. Queensland University of Technology, Australia
+ * 2. The University of Queensland, Australia
+ */
+
 #include "posecell_network.h"
 #include "../utils/utils.h"    
       
@@ -75,6 +105,8 @@ namespace vitaslam
         get_setting_from_ptree(PC_VT_RESTORE, settings, "pc_vt_restore", 0.05);
         get_setting_from_ptree(EXP_DELTA_PC_THRESHOLD, settings, "exp_delta_pc_threshold", 2.0);
 
+        /* Over how many posecells hould be averaged when finding the center of
+         * the activation package */
         PC_CELLS_TO_AVG = 3;
 
         /* Generate the sine and cosine lookups for wrapping */
@@ -110,14 +142,10 @@ namespace vitaslam
         stop_after = 0;
 
     }
+     /* When new odometry is received the activation package is moved by exciting and inhibiting
+     * the poseecell network */
     void PosecellNetwork::on_odo(double vtrans_x, double vtrans_y, double vrot, double time_diff_s)
     {
-        //cout << "current_vt: " << current_vt << " current_exp: " << current_exp << endl;
-        /*
-        printf("trgt_x: %d trgt_y: %d trgt_g: %d nrg: %.3f\n", wrap_index(inject_x,PC_DIM_XYZ),wrap_index(inject_y,PC_DIM_XYZ), wrap_index(inject_g,PC_DIM_ABG),1.33);
-        posecells->set_posecell_value(inject_x, inject_y, 10, posecells->get_posecell_value(inject_x, inject_y, 10) + 1.33);
-        inject_x += 0.04;
-        */
         if (stop_after >= 10000000000)
         {
            exit(0); 
@@ -127,58 +155,28 @@ namespace vitaslam
             stop_after++;
         }
 
-        //posecells->zero_content();
-        //posecells->set_posecell_value((int)best_x, (int)best_y, (int)best_g, 1.0);
-
         // Computing translation and rotation velocity based on the time difference between the odometry callbacks in main_pc.cpp
         vtrans_x = vtrans_x * time_diff_s;
         vtrans_y = vtrans_y * time_diff_s;
         vrot = vrot * time_diff_s;
-        //vtrans = 0;
-        //vrot = 0;
-        //cout << "vtrans: " << vtrans_x << " " << vtrans_y << " vrot: " << vrot << " time_diff_s: " << time_diff_s << endl;
         
-        // Verbose allows you to output the posecells array after each individual step
-        //cout << "BEGIN" << endl;
-        //posecells->printout();
         posecells_new->zero_content();
-
         excite();
-
         posecells->set_vector(posecells_new->get_vector());
         posecells_new->zero_content();
-        //cout << "Exciting done" << endl;
-        //posecells->printout();
-
-
         inhibit();
-
-        //cout << "Inhib done" << endl;
-        //posecells_new->printout();
-
         posecells->global_inhib(posecells_new->get_vector(), PC_GLOBAL_INHIB);
-
-        //cout << "Global Inhib done" << endl;
-        //posecells->printout();
-
         posecells->normalize();
-
-        //cout << "normalized" << endl;
-        //posecells->printout();
-
         
         angle_to_add = atan2(vtrans_y, vtrans_x);
         path_integration(sqrt(pow(vtrans_x,2)+pow(vtrans_y,2)), vrot, angle_to_add);
 
-        //cout << "path integration" << endl;
-        //posecells->printout();
 
         double max = find_best();
-        //cout << "best_x: " << best_x << " best_y: " << best_y << " best_g: " << best_g <<  " max: " << max << endl;
-        //cout << "==================== Run " << stop_after << "======================" << endl;
               
         odo_update = true;
     } 
+    
     void PosecellNetwork::create_experience()
     {
         PosecellVisualTemplate * pcvt = &visual_templates[current_vt];
@@ -190,6 +188,7 @@ namespace vitaslam
         exp->pcxp_g = g();
         pcvt->exps.push_back(current_exp);
     }
+
     void PosecellNetwork::create_view_template()
     {
         PosecellVisualTemplate * pcvt;
@@ -200,11 +199,13 @@ namespace vitaslam
         pcvt->pcvt_g = g();
         pcvt->decay = VT_ACTIVE_DECAY;
     }
+
     /*! This function is called whenever a new view template is received in main_pc.cpp.
-     * If the visual template with it vt does not exist yet, create a new template with the given id and add it to the visual_templateslist
-     * Set the visual templates x,y,z,a,b,g to the best values found by find_best()
+     * If the visual template with id vt does not exist yet, create a new template with
+     * the given id and add it to the visual_templateslist.
+     * Set the visual templates x,y,g to the best values found by find_best()
      */
-    void PosecellNetwork::on_vita_template(int vt, double vt_rad) // double vt_rad_a, double vt_rad_b, double vt_rad_g)
+    void PosecellNetwork::on_vita_template(int vt, double vt_rad)
     {
         PosecellVisualTemplate * pcvt;
         if (vt >= (int)visual_templates.size())
@@ -217,7 +218,6 @@ namespace vitaslam
             // The template exists already and we will reuse it
             pcvt = &visual_templates[vt];
 
-            //cout << "Existing template vt: " << vt << " size: " << visual_templates.size() <<  " => " << (vt < ((int)visual_templates.size() - 10)) << endl;
             // This prevents energy from being injected in recently created visual templates
             if (vt < ((int)visual_templates.size() - 10))
             {
@@ -226,9 +226,9 @@ namespace vitaslam
                 } else {
                     pcvt->decay += VT_ACTIVE_DECAY;
                 }
-                //cout << "Existing template vt: " << vt << " size: " << visual_templates.size() <<  " => " << (vt < ((int)visual_templates.size() - 10)) << endl;
 
-                // This line is magic. Taken from micheal balls implementation at https://github.com/davidmball/ratslam/blob/ratslam_ros/src/ratslam/posecell_network.cpp
+                // This line is magic. Taken from micheal balls implementation at
+                // https://github.com/davidmball/ratslam/blob/ratslam_ros/src/ratslam/posecell_network.cpp
                 // The inject energy is computed here
                 double energy = PC_VT_INJECT_ENERGY * 1.0 / 30.0 * (30.0 - exp(1.2 * pcvt->decay));
                 // If there is energy to inject
@@ -236,10 +236,10 @@ namespace vitaslam
                 {
                     // Transform the visual template relative angle to a posecell visual template angle
                     // Scale vt_rad_g (the relative angle around the z axis) to PC_DIM_ABG.
-                    // For example if we have PC_DIM_ABG = 36 and a relative angle vt_rad_g = 1 rad -> vt_delta_pcvt_g = 5.76 (out of 36) 
+                    // For example if we have PC_DIM_ABG = 36 and a relative angle
+                    // vt_rad_g = 1 rad -> vt_delta_pcvt_g = 5.76 (out of 36) 
                     // vt_rad_g is always set to zero in local_view_match.cpp if the mode is not panoramic
                     vt_delta_pcvt_g = vt_rad / (2.0 * M_PI) * PC_DIM_ABG;
-                    //cout << "vt_delta_pcvt_g: " << vt_delta_pcvt_g << endl;
                     vt_delta_pcvt_g = 0;
                     double pc_g_corrected = pcvt->pcvt_g + vt_delta_pcvt_g;
                     // Wrap around, if pcvt_a + vt_delta_pcvt_a is larger than PC_DIM_ABG or less than zero, wrap around
@@ -247,7 +247,6 @@ namespace vitaslam
                         pc_g_corrected = PC_DIM_ABG + pc_g_corrected;
                     if (pc_g_corrected >= PC_DIM_ABG)
                         pc_g_corrected = pc_g_corrected - PC_DIM_ABG;
-                    //cout << "x: " << pcvt->pcvt_x << " y: " << pcvt->pcvt_x << " g: " << pcvt->pcvt_g << " pc_g_corrected: " << pc_g_corrected << endl;
                     inject((int)pcvt->pcvt_x, (int)pcvt->pcvt_y, (int)pc_g_corrected, energy);
                   }
             }
