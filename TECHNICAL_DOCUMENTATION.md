@@ -104,3 +104,16 @@ The meaning and influence of the most important parameters is explained in the t
 The sources (models and plugins) for the WhiskEye robot platform are contained on a separate branch "whiskeye_robot" in this repository.
 There is also mroe information about how to use that package.
 The WhiskEye robot is provided by Martin J. Pearson from the Bristol Robotics Lab (BRL). (Mail: martin.pearson@brl.ac.uk)
+
+## Related Publications
+If you use ViTa-SLAM for academic research, please cite it as:
+[1]
+```
+@article{struckmeier2019vita,
+  title={ViTa-SLAM: A Bio-inspired Visuo-Tactile SLAM for Navigation while Interacting with Aliased Environments},
+  author={Struckmeier, Oliver and Tiwari, Kshitij and Salman, Mohammed and Pearson, Martin J and Kyrki, Ville},
+  journal={arXiv preprint arXiv:1906.06422},
+  year={2019}
+}
+```
+

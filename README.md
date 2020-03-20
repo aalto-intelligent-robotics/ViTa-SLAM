@@ -1,6 +1,6 @@
 # ViTa-SLAM
 This is the user documentation of ViTa-SLAM and the contents of this repository.
-A more detailed technical report can be found in the `TECHNICAL_REPORT.md`.
+A more detailed technical report can be found [here](https://github.com/aalto-intelligent-robotics/ViTa-SLAM/blob/master/TECHNICAL_DOCUMENTATION.md)
 
 ## Introduction
 ViTa-SLAM[1] is a rat hippocampus-inspired visual SLAM framework capable of generating semi-metric topological representations of indoor and outdoor environments by taking visual and tactile data into account. It is an extension to the vision only RatSLAM[2] and the 6D Whisker-RatSLAM[3].
@@ -11,27 +11,29 @@ ViTa-SLAM not only allows the robot to perform natural interactions with the env
 The ViTa-SLAM software framework in this repository can be used as a method of performing SLAM with odometry, visual and tactile data as input. The output is a semi-metric topologial map and a pose estimate of the robot.
 
 Inputs:
-- /whiskeye/odom: Odometry of the robot
-- /whiskeye/head/rcp\_state: RCP state of the whisker array (protracting or retracting whiskers)
-- /whiskeye/head/contact\_world: Whisker contact points in world frame.
-- /whiskeye/head/xy: xy deflection angles of the whiskers (2 values (1 for x defl., 1 for y defl.) for each whisker)
-- /whiskeye/platform/cam0: Camera input
+- `/whiskeye/odom`: Odometry of the robot
+- `/whiskeye/head/rcp\_state`: RCP state of the whisker array (protracting or retracting whiskers)
+- `/whiskeye/head/contact\_world`: Whisker contact points in world frame.
+- `/whiskeye/head/xy`: xy deflection angles of the whiskers (2 values (1 for x defl., 1 for y defl.) for each whisker)
+- `/whiskeye/platform/cam0`: Camera input
 
 Outputs:
-- /whiskeye/ExperienceMap/Map: The experience map
-- /whiskeye/ExperienceMap/RobotPose: The robot pose
-- /whiskeye/log/em: The experience map in a different format
+- `/whiskeye/ExperienceMap/Map`: The experience map
+- `/whiskeye/ExperienceMap/RobotPose`: The robot pose
+- `/whiskeye/log/em`: The experience map in a different format
 
 ## Packages in this repository
- There are 4 packages overall in the master and experiments branches.
-- vitaslam: Contains the vitaslam codebase
-The following packages in the experiments branch are not needed to run ViTa-SLAM but to recreate the experiments for our paper[1].
-- master\_node: Contains the launch scripts and installation instructions
-- whiskeye\_controller: Contains various controllers to move the robot in gazebo
-- whiskeye\_gazebo: Contains the gazebo files and worlds to test ViTa-SLAM
-Move the contents of this repository in a catkin workspace and compile with `catkin_make`. For more details follow the installation instructions in the technical report.
+There are 4 packages overall in the **master** and **experiments** branches.
+- `vitaslam`: Contains the vitaslam codebase
+The following packages in the **experiments** branch are not needed to run ViTa-SLAM but to recreate the experiments for our paper[1].
+- `master\_node`: Contains the launch scripts and installation instructions
+- `whiskeye\_controller`: Contains various controllers to move the robot in gazebo
+- `whiskeye\_gazebo`: Contains the gazebo files and worlds to test ViTa-SLAM
+Move the contents of this repository in a catkin workspace and compile with `catkin_make`. For more details follow the installation instructions in the [technical report](https://github.com/aalto-intelligent-robotics/ViTa-SLAM/blob/master/TECHNICAL_DOCUMENTATION.md).
+The model and plugin of the Whiskeye robot platform can be found in the **whiskeye_robot** branch.
 
-## Sources
+## Related Publications
+If you use ViTa-SLAM for academic research, please cite it as:
 [1]
 ```
 @article{struckmeier2019vita,
