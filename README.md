@@ -1,6 +1,8 @@
 # Whiskeye Robot
 This repository contains the plugin and model of the whiskeye_robot platform.
 
+![whiskeye simulation](media/WhiskEyeSim.jpg)
+
 The code and model are provided by Martin Pearson (martin.pearson@brl.ac.uk).
 
 ## Usage
