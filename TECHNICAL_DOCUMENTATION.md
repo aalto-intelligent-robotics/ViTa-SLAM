@@ -109,7 +109,7 @@ To set up the Whiskeye robot with the NRP, follow these steps:
   <robotPose robotId="whiskeye_robot" x="0.0" y="0.0" z="0.0" roll="0.0" pitch="0.0" yaw="0.0" />
 5. Start the experiment
    
-![](nrp.gif)
+![](media/nrp.gif)
 
 ## Parameter tuning
 The parameters for ViTa-SLAM can be changed in vitaslam/config/config\_whiskeye.txt.in.
