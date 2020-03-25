@@ -2,6 +2,8 @@
 This is the user documentation of ViTa-SLAM and the contents of this repository.
 A more detailed technical report can be found [here](https://github.com/aalto-intelligent-robotics/ViTa-SLAM/blob/master/TECHNICAL_DOCUMENTATION.md)
 
+![](nrp.gif)
+
 ## Introduction
 ViTa-SLAM[1] is a rat hippocampus-inspired visual SLAM framework capable of generating semi-metric topological representations of indoor and outdoor environments by taking visual and tactile data into account. It is an extension to the vision only RatSLAM[2] and the 6D Whisker-RatSLAM[3].
 

@@ -96,6 +96,18 @@ ViTa-SLAM can be launched with a NRP experiment by adding the "rosLaunch" parame
 
 ViTa-SLAM then acts as just another ROS node and can be used according to the specifications in this document.
 Since the topic of the odometry sensor of the WhiskEye robot is not published, in the Transfer Function of the NRP experiment the odometry data must be published in the repsective topic manually.
+To set up the Whiskeye robot with the NRP, follow these steps:
+1. Move the plugin libwhiskeye_gazebo.so from the folder "whiskeye_robot" to $HBP/GazeboRosPackages/devel/lib
+2. Copy the folder whiskeye_msgs in $HBP/GazeboRosPackages/devel/lib/python2.7/dist-packages
+3. Move the folders whiskeye_robot and whiskeye_msgs to $HBP/Models
+4. Create the symlinks for the models by executing the script "create-symlinks.sh" inside $HBP/Models. Then, in order to create a NRP experiment with the Whiskeye, follow these steps:
+1. Create a new empty world environment
+2. Copy the sdf model of the robot inside the experiment folder in nrpStorage
+3. Add the following line to bibi_configuration.bibi in <ns1:bibi>:
+  <ns1:bodyModel robotId="whiskeye_robot">whiskeye_robot.sdf</ns1:bodyModel>
+4. Add the following line to experiment_configuration.exc ins <environmentModel>:
+  <robotPose robotId="whiskeye_robot" x="0.0" y="0.0" z="0.0" roll="0.0" pitch="0.0" yaw="0.0" />
+5. Start the experiment
 
 ## Parameter tuning
 The parameters for ViTa-SLAM can be changed in vitaslam/config/config\_whiskeye.txt.in.
