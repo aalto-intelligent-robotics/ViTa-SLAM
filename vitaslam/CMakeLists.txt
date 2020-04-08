@@ -26,7 +26,7 @@ find_package(Boost REQUIRED COMPONENTS serialization)
 # Packages required for drawing
 find_package(Irrlicht REQUIRED)
 find_package(OpenGL REQUIRED)
-
+find_package(UUID REQUIRED)
 
 ## Generate messages in the 'msg' folder
 add_message_files(
