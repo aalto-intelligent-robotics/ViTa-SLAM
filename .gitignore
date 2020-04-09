@@ -1,5 +1,5 @@
 build/*
-.catkin_workspace
+catkin_ws
 devel/*
 src/CMakeLists.txt
 media/gif.kdenlive
