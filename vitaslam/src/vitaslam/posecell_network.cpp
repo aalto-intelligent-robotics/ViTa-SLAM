@@ -59,7 +59,9 @@ namespace vitaslam
 
         PC_C_SIZE_ABG = (2.0 * M_PI) / PC_DIM_ABG;
 
-        STARTING_FACTOR = 0.5;
+        STARTING_FACTOR_X = 0.5;
+        STARTING_FACTOR_Y = 0.5;
+        STARTING_FACTOR_G = 0.5;
 
         // Set up the excite pdf function
         double total = 0;
@@ -123,13 +125,12 @@ namespace vitaslam
 
         // Status variables for whether the odometry and visual template have been updated
         odo_update = false;
-        vt_update = false;
-        tt_update = false;
+        vita_update = false;
 
         // Set the initial best estimates to the center of the posecell array
-        best_x = floor((double)PC_DIM_XYZ*STARTING_FACTOR);
-        best_y = floor((double)PC_DIM_XYZ*STARTING_FACTOR);
-        best_g = floor((double)PC_DIM_ABG*STARTING_FACTOR);
+        best_x = floor((double)PC_DIM_XYZ*STARTING_FACTOR_X);
+        best_y = floor((double)PC_DIM_XYZ*STARTING_FACTOR_Y);
+        best_g = floor((double)PC_DIM_ABG*STARTING_FACTOR_G);
        
         posecells = new Posecells(PC_DIM_XYZ, PC_DIM_ABG, 2, 1);
         // Set the initial pose in the posecell array to the center of all dimensions
@@ -168,8 +169,8 @@ namespace vitaslam
         posecells->global_inhib(posecells_new->get_vector(), PC_GLOBAL_INHIB);
         posecells->normalize();
         
-        angle_to_add = atan2(vtrans_y, vtrans_x);
-        path_integration(sqrt(pow(vtrans_x,2)+pow(vtrans_y,2)), vrot, angle_to_add);
+        float vtrans = sqrt(pow(vtrans_x,2)+pow(vtrans_y,2));
+        path_integration(vtrans, vrot);
 
 
         double max = find_best();
@@ -258,26 +259,19 @@ namespace vitaslam
         }
         prev_vt = current_vt;
         current_vt = vt;
-        vt_update = true;
+        vita_update = true;
     }
-    void PosecellNetwork::on_tactile_template(int tt)
-    {
-        tt_update = true;
-    }
+
     PosecellNetwork::PosecellAction PosecellNetwork::get_action()
     {
         PosecellExperience * experience;
         double delta_pc; 
         PosecellAction action = NO_ACTION;
-        // If the odometry and visual template have been updated, reset the status variables
-        if (odo_update && vt_update)// && tt_update)
+        // If the odometry and visuo tactile template have been updated, reset the status variables
+        if (odo_update && vita_update)
         {
             odo_update = false;
-            vt_update = false;
-            if (tt_update and SENSOR_MODE == 2 or SENSOR_MODE == 1)
-            {
-                tt_update = false;
-            }
+            vita_update = false;
         } else {
             return action;
         }
@@ -289,9 +283,9 @@ namespace vitaslam
 
         if ((int)experiences.size() == 0)
         {
-            //cout << "CREATE_NODE: experiences.size == 0" << endl;
             create_experience();
             action = CREATE_NODE;
+            //cout << "CREATE_NODE: experience size = 0" << endl;
         }
         else
         {
@@ -300,9 +294,9 @@ namespace vitaslam
             PosecellVisualTemplate * pcvt = &visual_templates[current_vt];
             if ((int)pcvt->exps.size() == 0)
             {
-                //cout << "CREATE_NODE: visual template has no experience" << endl;
                 create_experience();
                 action = CREATE_NODE;
+                //cout << "CREATE_NODE: posecell view template exp size = 0" << endl;
             }
             else if (delta_pc > EXP_DELTA_PC_THRESHOLD || current_vt != prev_vt)
             {
@@ -313,7 +307,6 @@ namespace vitaslam
                 int min_delta_id = -1;
                 double min_delta = DBL_MAX;
                 double delta_pc;
-                //cout << "Going through experiences of visual_template " << current_vt << endl;
                 for (i = 0; i < (int)pcvt->exps.size(); i++)
                 {
                     // make sure we arent' comparing to the current experience
@@ -326,9 +319,9 @@ namespace vitaslam
                         min_delta = delta_pc;
                         min_delta_id = pcvt->exps[i];
                     }
-                    //cout << "Experienc id: " << pcvt->exps[i] << " gamma: " << experience->pcxp_g << endl;
                 }
-                cout << "min_delta: " << min_delta << " min_delta_id " << min_delta_id << " EXP_DELTA_PC_THRESHOLD: " << EXP_DELTA_PC_THRESHOLD << endl;
+                //cout << "min_delta: " << min_delta << " delta_pc: " << delta_pc << endl;
+                //cout << " min_delta_id " << min_delta_id << " EXP_THR: " << EXP_DELTA_PC_THRESHOLD << endl;
                 if (min_delta < EXP_DELTA_PC_THRESHOLD)
                 {
                     //cout << "CREATE_EDGE: min_delta < EXP_DELTA_PC_THRESHOLD" << endl;
@@ -374,7 +367,6 @@ namespace vitaslam
         return true;
     }
     double PosecellNetwork::get_delta_pc(double x, double y, double g){
-
         double pc_g_corrected = best_g - vt_delta_pcvt_g;
         // Wrap around, if best_a - vt_delta_pcvt_a is larger than PC_DIM_ABG or less than zero, wrap around
         if (pc_g_corrected < 0) 
@@ -611,11 +603,12 @@ namespace vitaslam
         //cout << endl;
     }
     //void PosecellNetwork::path_integration(double vtrans, double vrot, double angle_to_add)
-    void PosecellNetwork::path_integration(double vtrans, double vrot, double angle_to_add)
+    void PosecellNetwork::path_integration(double vtrans, double vrot)
     {
-        //cout << "path int: vtrans: " << vtrans << " vrot: " << vrot << " angle_to_add " << angle_to_add << endl;
         // We have to scale the translational velocity to the pose cell x size
         vtrans /= PC_C_SIZE_XYZ;
+        // This angle is used to flip the vtrans sign. Invert the sign and add 180 degrees.
+        angle_to_add = 0;
           
         // Take the absolute value of the translational velocity
         if (vtrans < 0)
@@ -623,7 +616,7 @@ namespace vitaslam
             vtrans *= -1;
             angle_to_add += M_PI;
         } 
-        //cout << "vtrans: " << vtrans << endl;
+        //cout << "path int vtrans: " << vtrans << " vrot: " << vrot << " angle_to_add " << angle_to_add << endl;
         // Iterate through all xy planes for all angles gamma
         int g, i, j;
         double dir, dir90, weight_sw, weight_se, weight_nw, weight_ne;
@@ -637,6 +630,7 @@ namespace vitaslam
             posecells->rot90((int)floor(dir * 2.0 / M_PI), g);        
           
             dir90 = dir - floor(dir * 2 / M_PI) * M_PI / 2;
+            //cout << "dir90: " << dir90 << " dir: " << dir << " g: " << g << " PC_C_SIZE_ABG: " << PC_C_SIZE_ABG << endl;
           
             // Extend the posecells one unit in each direction
             // Work out the weight contribution to the NE cell from SW, NW, SE cells given vtrans and the direction

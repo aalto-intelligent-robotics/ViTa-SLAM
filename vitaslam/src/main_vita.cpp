@@ -73,10 +73,6 @@ vector<vector<double>> *deflections = new vector<vector<double>>();
 vector<vector<double>> *deflections_buffer = new vector<vector<double>>();
 
 int SENSOR_MODE;
-bool last_rcp_state = true;
-bool visual_data_changed = false;
-bool contact_data_changed = false;
-bool init_done = false;
 
 /*!  This function clips an angle in rads to a range from 0 to 2 rad
  *  And would technically count by how many rotations we had to clip,
@@ -96,63 +92,34 @@ double clip2rad(double angle)
     return angle;
 }
 
-void image_callback(sensor_msgs::ImageConstPtr in)
+/*! This callback receives the image data.
+ * Whenever new image data is received take whatever is the tactile data and publish the template
+ */
+void image_callback(sensor_msgs::ImageConstPtr in, ros::Publisher * pub_t)
 {
     temp = in;
-    visual_data_changed= true;
-}
+    deflections_buffer = deflections;
 
-void rcp_state_callback(const std_msgs::Bool::ConstPtr& rcp_state, ros::Publisher * pub_t)
-{
-    // Recieve the image and preprocess it, Then we receive the id which will be used in posecells_network.cpp
-    // This was the old image input (which was bgr8, but the whiskeye camera gives us rgb8 images)
-    //lv->on_image(&image->data[0], (image->encoding == "bgr8" ? false : true), image->width, image->height);
-    // We changed the image encoding here to rgb8 because that is what the whiskeye gazebo model provides.
-    // Also take the current tactile data here even though it might not have changed, but a template has to consist of both tactile and visual data
-    if (visual_data_changed == true && contact_data_changed == true)
-        init_done = true;
-    if (rcp_state->data != last_rcp_state && (visual_data_changed == true || contact_data_changed) && init_done){
-        // If the whiskers finished protracting
-        if (last_rcp_state == true)
-        {
-            static vitaslam::CombinedTemplateMessage t_output;
-            lt->on_whisk_completed(&temp->data[0], (temp->encoding == "rgb8" ? false : true), temp->width, temp->height, *contacts, *deflections_buffer);
+    static vitaslam::CombinedTemplateMessage t_output;
+    lt->on_whisk_completed(&temp->data[0], (temp->encoding == "rgb8" ? false : true), temp->width, temp->height, *contacts, *deflections_buffer);
 
-            t_output.header.stamp = ros::Time::now();
-            t_output.header.seq++;
-            // Get the id of the current vita template
-            t_output.current_id = lt->get_current_template();
-            // Get the relative difference of the template to create to the last template
-            t_output.relative_rad = lt->get_relative_rad();
+    t_output.header.stamp = ros::Time::now();
+    t_output.header.seq++;
+    // Get the id of the current vita template
+    t_output.current_id = lt->get_current_template();
+    // Get the relative difference of the template to create to the last template
+    t_output.relative_rad = lt->get_relative_rad();
 
-            // Publish the output template
-            pub_t->publish(t_output);
+    // Publish the output template
+    pub_t->publish(t_output);
 
-            // Draw the scene (the windows on the screen that shows the camera views) 
-            #ifdef HAVE_IRRLICHT
-            if (render_templates)
-            {
-                lvs->draw_all();
-            }
-            #endif
-            // Reset the tactile data storages
-            contact_data_changed = false;
-            visual_data_changed = false;
-
-        }
-        // If the whisker finished retracting
-        if (last_rcp_state == false)
-        {
-            // Empty the current deflection storage and fill it in the global deflections variable
-            deflections_buffer = deflections;
-            deflections= new vector<vector<double>>();
-            for (int i = 0; i < 48; i ++)
-            {
-                deflections->push_back(vector<double>());
-            }
-        }
-        last_rcp_state = rcp_state->data;
+    // Draw the scene (the windows on the screen that shows the camera views) 
+    #ifdef HAVE_IRRLICHT
+    if (render_templates)
+    {
+        lvs->draw_all();
     }
+    #endif
 }
 
 /*! This callback receives the contact points of the whiskers with an
@@ -168,7 +135,6 @@ void contacts_callback(const std_msgs::Float32MultiArray::ConstPtr& array)
     // When there is no contact return a zero so that the vector is not empty
     if (contacts->size() <= 0)
         contacts = new std::vector<double>(1, 0);
-    contact_data_changed = true;
 }
 
 /*! This callback receives the contact points of the whiskers with an
@@ -221,14 +187,11 @@ int main(int argc, char * argv[])
     image_transport::ImageTransport it(node);
     // Create subscriber for the camera image with the image_callback function
     // Subscribe to the camera mounted to the base of the whiskeye robot. The stereo cams on the neck are called cam0 and cam1, the one on the body cam2
-    image_transport::Subscriber sub_visual = it.subscribe(topic_root + "/platform/cam0", 0, boost::bind(image_callback, _1));
+    image_transport::Subscriber sub_visual = it.subscribe(topic_root + "/platform/cam0", 0, boost::bind(image_callback, _1, &pub_template));
 
     // Subscribe to the raw tactile data
     ros::Subscriber sub_contacts = node.subscribe<std_msgs::Float32MultiArray>(topic_root + "/head/contact_world", 0, boost::bind(&contacts_callback,_1));
     ros::Subscriber sub_deflections = node.subscribe<std_msgs::Float32MultiArray>(topic_root + "/head/xy", 0, boost::bind(&deflections_callback,_1));
-
-    // Subscribe to the whisker status
-    ros::Subscriber sub_rcp_state = node.subscribe<std_msgs::Bool>(topic_root + "/head/rcp_state", 0, boost::bind(&rcp_state_callback, _1, &pub_template));
 
     // Create the empty visual data storage variables
     image_width = 0;

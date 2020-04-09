@@ -79,7 +79,6 @@ namespace vitaslam
             
             void on_odo(double vtrans_x, double vtrans_y, double vrot, double time_diff_s);
             void on_vita_template(int vt, double vt_rad);//double vt_rad_a, double vt_rad_b, double double_vt_rad_g);
-            void on_tactile_template(int tt);
 
             PosecellAction get_action();
             unsigned int get_current_exp_id() {return current_exp; }
@@ -105,8 +104,7 @@ namespace vitaslam
             unsigned int current_vt, prev_vt;
             unsigned int current_exp, prev_exp;
             bool odo_update;
-            bool vt_update;
-            bool tt_update;
+            bool vita_update;
             std::vector<PosecellVisualTemplate> visual_templates;
             std::vector<PosecellExperience> experiences;
 
@@ -152,7 +150,7 @@ namespace vitaslam
             bool inhibit_helper(int x, int y, int g);
 
             /*! Shift the energy in the system by a translational and rotational velocity */
-            void path_integration(double vtrans, double vrot, double angle_to_add);
+            void path_integration(double vtrans, double vrot);
             int get_flat_index(int x, int y, int xsize);
 
             /*! Find an approximation of the centre of the energy packet */
@@ -172,7 +170,9 @@ namespace vitaslam
 
             //! This is used to set the initial best estimate
             // Vanilla ratslam used the center of the grid (STARTING_FACTOR = 0.5)
-            double STARTING_FACTOR;
+            double STARTING_FACTOR_X;
+            double STARTING_FACTOR_Y;
+            double STARTING_FACTOR_G;
             int SENSOR_MODE;
             // This variable is used for storing the angle that is a result of the y translation
             double angle_to_add;

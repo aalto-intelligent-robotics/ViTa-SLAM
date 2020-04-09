@@ -3,11 +3,11 @@ topic_root=/whiskeye
 publish_metrics=1
                                                 	
 [vitaslam]
-sensor_mode = 2
+sensor_mode = 0
 
 image_crop_x_max=640
 image_crop_y_min=0
-image_crop_y_max=400
+image_crop_y_max=300
 template_x_size=64
 template_y_size=40
 vt_shift_match = 5
@@ -18,7 +18,7 @@ vt_active_decay = 0.5
 
 tt_template_size = 51
 
-template_match_threshold = 0.1
+template_match_threshold = 0.06
 visual_scalar = 0.25
 pfh_scalar = 102
 sda_scalar = 29
@@ -30,12 +30,12 @@ pc_w_e_dim = 3
 pc_w_i_dim = 3
 pc_w_e_var = 1
 pc_w_i_var = 1
-pc_global_inhib = 0.0001
-pc_vt_inject_energy = 0.4
-pc_cell_x_size = 3.0
+pc_global_inhib = 0.00002
+pc_vt_inject_energy = 0.1
+pc_cell_x_size = 0.1
 
 
-exp_delta_pc_threshold = 1.2
+exp_delta_pc_threshold = 2.0
 exp_loops=20
 exp_initial_em_deg=90
 

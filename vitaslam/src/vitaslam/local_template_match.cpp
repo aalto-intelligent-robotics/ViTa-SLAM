@@ -44,7 +44,7 @@ using namespace std;
 #include <stdio.h>
 #include <fstream>
 
-bool verbose = false; // This option prints debugs if a match has been found and if not what was the error
+bool verbose = true; // This option prints debugs if a match has been found and if not what was the error
 
 namespace vitaslam
 {
@@ -238,7 +238,6 @@ void LocalTemplateMatch::compare(double &err, int &template_match_id)
         //cout << *i << ' ';
     //cout << endl;
 
-    int bla = 0;
     BOOST_FOREACH(ct, templates)
     {
         // ======================= Visual Error ===================================
@@ -274,9 +273,6 @@ void LocalTemplateMatch::compare(double &err, int &template_match_id)
         total_pfh_tt = abs(std::accumulate(pfh_tt.begin(), pfh_tt.end(), 0.0));
         total_pfh_cur = abs(std::accumulate(pfh_cur.begin(), pfh_cur.end(), 0.0));
 
-        //cout << bla << " " ;
-        //bla++;
-        //cout << endl;
         //for (vector<double>::const_iterator i = pfh_tt.begin(); i != pfh_tt.end(); ++i)
             //cout << *i << ',';
 
@@ -287,7 +283,6 @@ void LocalTemplateMatch::compare(double &err, int &template_match_id)
             tmp.push_back(abs(pfh_cur.at(i) - pfh_tt.at(i))); 
         }
         pfh_err = std::accumulate(tmp.begin(), tmp.end(), 0.0);
-        //cout << ": " << pfh_err << endl;
         // ======================= SDA Error ===================================
         vector<double> sda_tt (ct.tactile_data.begin(), ct.tactile_data.begin()+23); 
         total_sda_tt = abs(std::accumulate(sda_tt.begin(), sda_tt.end(), 0.0));
@@ -304,7 +299,6 @@ void LocalTemplateMatch::compare(double &err, int &template_match_id)
             tmp.push_back(abs(sda_cur.at(i) - sda_tt.at(i))); 
         }
         sda_err = std::accumulate(tmp.begin(), tmp.end(), 0.0);
-        //cout << ": " << sda_err << endl;
         //cout << endl;
         // ======================= Combine the errors ==========================
         if (SENSOR_MODE == 0){
@@ -329,7 +323,6 @@ void LocalTemplateMatch::compare(double &err, int &template_match_id)
             template_match_id = ct.id;
             err = combined_error;
         }
-
     }
 }
 }
